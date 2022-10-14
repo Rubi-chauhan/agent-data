@@ -7,4 +7,4 @@ const carrierSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('carrier',carrierSchema)
+module.exports = mongoose.models.carrier|| mongoose.model('carrier', carrierSchema);      //mongoose.model('carrier',carrierSchema)

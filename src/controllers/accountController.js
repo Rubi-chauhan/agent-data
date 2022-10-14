@@ -23,14 +23,14 @@ const createUserAccount = async (req,res)=>{
 
 const getUsersAccount = async(req,res)=>{
     try {
-        let account_name= req.params.account_name
+        let accountname= req.params.accountname
 
-        const checkAccount = await accountModel.findOne(account_name)
+        const checkAccount = await accountModel.findOne({account_name:accountname})
         if(!checkAccount){
-            res.status(400).send({status:false, message:`No account details found with this ${account_name}`})
+            res.status(400).send({status:false, message:`No account details found with this ${accountname}`})
         }
 
-        res.status(200).send({status:true, message:`account details of ${account_name}`, data:checkAccount})
+        res.status(200).send({status:true, message:`account details of ${accountname}`, data:checkAccount})
         
     } catch (err) {
         res.status(500).send({error:err.message})
@@ -39,15 +39,16 @@ const getUsersAccount = async(req,res)=>{
 
 const updateUsersAccount = async(req,res)=>{
     try {
-        let account_name= req.params.account_name
+        let accountname= req.params.accountname
         let data = req.body
 
-        const checkAccount = await accountModel.findOne(account_name)
+
+        const checkAccount = await accountModel.findOne({account_name:accountname})
         if(!checkAccount){
-            res.status(400).send({status:false, message:`No account details found with this ${account_name}`})
+            res.status(400).send({status:false, message:`No account details found with this ${accountname}`})
         }
 
-        let updatedAccount = await accountModel.findOneAndUpdate(account_name, data, {new:true})
+        let updatedAccount = await accountModel.findOneAndUpdate(accountname, data, {new:true})
         res.status(200).send({status:true, message:`account details updated successfully `, data:updatedAccount})
         
     } catch (err) {
@@ -57,14 +58,14 @@ const updateUsersAccount = async(req,res)=>{
 
 const deleteUsersAccount = async(req,res)=>{
     try {
-        let account_name= req.params.account_name
+        let accountname= req.params.accountname
 
-        const checkAccount = await accountModel.findOne(account_name)
+        const checkAccount = await accountModel.findOne({account_name:accountname})
         if(!checkAccount){
-            res.status(400).send({status:false, message:`No account details found with this ${account_name}`})
+            res.status(400).send({status:false, message:`No account details found with this ${accountname}`})
         }
 
-        const deleteAccount = await accountModel.deleteOne(account_name)
+        const deleteAccount = await accountModel.deleteOne({account_name:accountname})
         res.status(200).send({status:true, message:`account details deleted successfully`, data:deleteAccount})
         
     } catch (err) {

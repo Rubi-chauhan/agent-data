@@ -8,4 +8,4 @@ const lobSchema = new mongoose.Schema({
     
 })
 
-module.exports = mongoose.model('lob',lobSchema)
+module.exports = mongoose.models.lob || mongoose.model('lob', lobSchema);      //mongoose.model('lob',lobSchema)

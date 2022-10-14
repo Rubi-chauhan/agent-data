@@ -8,4 +8,4 @@ const agentSchema = new mongoose.Schema({
     
 })
 
-module.exports = mongoose.model('agent',agentSchema)
+module.exports = mongoose.models.agent || mongoose.model('agent', agentSchema);     //mongoose.model('agent',agentSchema)

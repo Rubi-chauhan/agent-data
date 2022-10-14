@@ -7,6 +7,13 @@
 const csvModel = require('../model/csvFile')
 const userModel = require('../Model/user')
 
+//* data validations
+const {isValidEmail, isValidPhone, isValidBody, enumGender, pincodeRegex, decimalNumRegex} = require('../utility/validation')
+
+
+
+//! we can also add the data in user collection with logic if we don't wanna use Readable'stream'
+//! lil bit slow but works definitely it is optional because we can directly add the data into different collections from CSV file while uploading the file using Stream 
 
 const createUser = async (req,res)=>{
     try {
@@ -41,10 +48,10 @@ const createUser = async (req,res)=>{
 
 const getUsers = async(req,res)=>{
     try {
-        let email= req.query.email
+        let email= req.params.email
 
-        const getUserData = await userModel.findOne(email)
-        if(!getUserDta){
+        const getUserData = await userModel.findOne({email:email})
+        if(!getUserData){
             res.status(400).send(`No user exist with this ${email} address`)
         }
         res.status(200).send({status:true, message:`${email} data successfully fetched`, data:getUserData})
@@ -59,14 +66,40 @@ const updateUsers = async(req,res)=>{
         let email = req.params.email
         let data = req.body
 
-        const checkUserExist = userModel.findOne(email)
+        if(!data){
+            res.status(400).send(`Please enter some data for updation`)
+        }
+
+        if (!isValidBody(data.email) || !isValidEmail(data.email)) {
+            return res.status(400).send({
+              status: false,
+              message: `Please! enter a valid email.`,
+            });
+          }
+
+          if (!isValidBody(data.phone) || !isValidPhone(data.phone)) {
+            return res.status(400).send({
+              status: false,
+              message: `Please!, enter a valid phone.`,
+            });
+          }
+
+           //** format validation using regex
+          if (!pincodeRegex.test(data.zip)) {
+            return res
+              .status(400)
+              .send({ status: false, message: "Please provide a valid zip " });
+          }
+
+
+        const checkUserExist = userModel.findOne({email:email})
         if(!checkUserExist){
             res.status(400).send(`No user exist with this ${email} address`)
         }
 
         const updatedData = await userModel.findOneAndUpdate(email, data, {new:true})
 
-        res.status(200).send({status:true, message:'user data updated sucessfully', data:updatedData})
+        res.status(200).send({status:true, message:'user data updated successfully', data:updatedData})
 
         
     } catch (err) {
@@ -78,7 +111,7 @@ const deleteUsers = async(req,res)=>{
     try {
         let email = req.params.email
 
-        const checkUserExist = userModel.findOne(email)
+        const checkUserExist = userModel.findOne({email:email})
         if(!checkUserExist){
             res.status(400).send(`No user exist with this ${email} address`)
         }

@@ -14,24 +14,24 @@ router.post('/upload',  uploadFile)
 
 //******** user *******/
 router.post('/user', createUser);
-router.get('/user',getUsers)
-router.put('/user', updateUsers)
-router.delete('/user', deleteUsers)
+router.get('/user/:email',getUsers)
+router.put('/user/:email', updateUsers)
+router.delete('/user/:email', deleteUsers)
 
 
 
 //********** account  ***********/
 router.post('/user/account', createUserAccount)
-router.get('/user/account',getUsersAccount)
-router.put('/user/account', updateUsersAccount)
-router.delete('/user/account', deleteUsersAccount)
+router.get('/user/:accountname',getUsersAccount)
+router.put('/user/:accountname', updateUsersAccount)
+router.delete('/user/:accountname', deleteUsersAccount)
 
 
 //********** policy ********/
 router.post('/policy', createPolicy)
-router.get('/policy',getPolicy)
-router.put('/policy', updatePolicy)
-router.delete('/policy', deletePolicy)
+router.get('/policy/:policynumber',getPolicy)
+router.put('/policy/:policynumber', updatePolicy)
+router.delete('/policy/:policynumber', deletePolicy)
 
 
 

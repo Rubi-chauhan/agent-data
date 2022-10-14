@@ -33,4 +33,4 @@ const policySchema = new mongoose.Schema({
     
 })
 
-module.exports = mongoose.model('policy',policySchema)
+module.exports = mongoose.models.policy || mongoose.model('policy', policySchema);        //mongoose.model('policy',policySchema)
